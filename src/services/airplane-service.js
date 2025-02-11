@@ -1,3 +1,4 @@
+const { where } = require("sequelize");
 const { AirplaneRepository } = require("../repositories");
 
 const AppError = require("../utils/errors/app-error")
@@ -54,9 +55,28 @@ async function destroyAirplane(id){
     }
 }
 
+async function updateAirplane(id, data) {
+    try {
+        const airplane = await airplaneRepository.get(id);
+        if (!airplane) {
+            throw new AppError('The Airplane you requested to update is not present', StatusCodes.NOT_FOUND);
+        }
+
+        const updatedAirplane = await airplaneRepository.update(id, data);
+        return updatedAirplane;
+    } catch (error) {
+        if (error.statusCode === StatusCodes.NOT_FOUND) {
+            throw new AppError('The Airplane you requested to update is not present', error.statusCode);
+        }
+        throw new AppError('Cannot update the airplane', StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+}
+
+
 module.exports = {
     createAirplane,
     getAirplanes,
     getAirplane,
-    destroyAirplane
+    destroyAirplane,
+    updateAirplane
 }
