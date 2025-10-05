@@ -36,7 +36,7 @@ async function getAllFlights(query) {
   let customFilter = {};
   let sortFilter = [];
   const endingTripTime = " 23:59:59";
-
+console.log("query function")
   if (query.trips) {
     [departureAirportId, arrivalAirportId] = query.trips.split("-");
     customFilter.departureAirportId = departureAirportId;
@@ -82,7 +82,7 @@ async function getAllFlights(query) {
     const flights = await flightRepository.getAllFlights(customFilter, sortFilter);
     return flights;
   } catch (error) {
-    throw new AppError(['cannot fetch data of all the flights'], StatusCodes.INTERNAL_SERVER_ERROR);
+    throw new AppError(['cannot fetch data of all jdfjsdj the flights'], StatusCodes.INTERNAL_SERVER_ERROR);
   }
 }
 
